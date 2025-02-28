@@ -1,0 +1,40 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  padding: 10px 20px;
+  color: white;
+  margin-bottom: 50px;
+}
+
+.navList {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  gap: 20px; /* Space between buttons */
+  margin-left: auto; /* Pushes the list to the right */
+}
+
+.navList li {
+  margin: 0;
+}
+
+.navList li a {
+  text-decoration: none;
+}
+
+.navList li button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.navList li button:hover {
+  background-color: #0056b3;
+}
