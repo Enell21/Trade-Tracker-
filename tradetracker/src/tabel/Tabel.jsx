@@ -1,9 +1,9 @@
-import { BrowserRouter as Link } from 'react-router-dom';
-import './table.module.css';
+import { Link } from "react-router-dom";
+import "./table.module.css";
 
-function Table() {
+function Table({ trades }) {
   return (
-    <div className='table-center'>
+    <div className="table-center">
       <table>
         <thead>
           <tr>
@@ -15,17 +15,23 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>prize of entry</td>
-            <td>prize of close</td>
-            <td>size of contracts</td>
-            <td>how much we won or lost</td>
-            <td>
-              <Link>
-                <button>More info</button>
-              </Link>
-            </td>
-          </tr>
+          {trades.length === 0 ? (
+            <tr>
+              <td colSpan="5">No trades</td>
+            </tr>
+          ) : (
+            trades.map((trade, index) => (
+              <tr key={index}>
+                <td>{trade.tradeEntry}</td>
+                <td>{trade.prizeOnSell}</td>
+                <td>{trade.tradeSize}</td>
+                <td>{trade.PNL}</td>
+                <td>
+                  <Link to={`/table/${index}`}>More info</Link>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>
