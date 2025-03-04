@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
 import "./table.module.css";
+import { useData } from "../context/DataContext";
 
-function Table({ trades }) {
+function Table() {
+  const { trades } = useData();
+
   return (
     <div className="table-center">
       <table>
@@ -15,11 +18,7 @@ function Table({ trades }) {
           </tr>
         </thead>
         <tbody>
-          {trades.length === 0 ? (
-            <tr>
-              <td colSpan="5">No trades</td>
-            </tr>
-          ) : (
+          {trades.length > 0 ? (
             trades.map((trade, index) => (
               <tr key={index}>
                 <td>{trade.tradeEntry}</td>
@@ -31,6 +30,10 @@ function Table({ trades }) {
                 </td>
               </tr>
             ))
+          ) : (
+            <tr>
+              <td colSpan="5">No trades</td>
+            </tr>
           )}
         </tbody>
       </table>

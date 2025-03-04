@@ -8,12 +8,15 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
+import { useData } from "../context/DataContext";
 
-const Chart = ({ data }) => {
+const Chart = () => {
+  const { chartData } = useData();
+
   return (
     <div>
       <ResponsiveContainer width="90%" height={400}>
-        <LineChart data={data}>
+        <LineChart data={chartData}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
           <YAxis />
