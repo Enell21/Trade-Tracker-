@@ -13,7 +13,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/table" element={<Table />} />
-          {/* <Route path="/form" element={<CreateOrder />} /> */}
         </Routes>
       </BrowserRouter>
     </DataProvider>

@@ -1,10 +1,7 @@
 import { Link } from "react-router-dom";
 import "./table.module.css";
-import { useData } from "../context/DataContext";
 
-function Table() {
-  const { trades } = useData();
-
+function Table({ data }) {
   return (
     <div className="table-center">
       <table>
@@ -14,20 +11,18 @@ function Table() {
             <th>Close</th>
             <th>Size</th>
             <th>PNL</th>
-            <th>More info</th>
+            <th>Description</th>
           </tr>
         </thead>
         <tbody>
-          {trades.length > 0 ? (
-            trades.map((trade, index) => (
+          {data.length > 0 ? (
+            data.map((trade, index) => (
               <tr key={index}>
                 <td>{trade.tradeEntry}</td>
                 <td>{trade.prizeOnSell}</td>
                 <td>{trade.tradeSize}</td>
                 <td>{trade.PNL}</td>
-                <td>
-                  <Link to={`/table/${index}`}>More info</Link>
-                </td>
+                <td>{trade.tradeDescription}</td>
               </tr>
             ))
           ) : (

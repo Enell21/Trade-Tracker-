@@ -1,36 +1,40 @@
 import { useState } from "react";
 import { useData } from "../context/DataContext";
 
-const CreateTradeForm = ({ onTradeSubmit }) => {
-  const { addTrade, addChartData } = useData();
+const CreateTradeForm = () => {
+  const { addTrade, addChartData, formData, updatedFormData, resetFormData } =
+    useData();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
 
-    const trade = {
-      tradeEntry: formData.get("tradeEntry"),
-      prizeOnSell: formData.get("prizeOnSell"),
-      tradeSize: formData.get("tradeSize"),
-      PNL: formData.get("PNL"),
-      tradeDescription: formData.get("tradeDescription"),
-      tradeImage: formData.get("tradeImage"),
-    };
+    if (formData.selectedMonth && formData.PNL) {
+      addChartData({
+        date: formData.selectedMonth,
+        PNL: parseInt(formData.PNL, 10),
+      });
+    }
 
     if (
-      trade.tradeEntry &&
-      trade.prizeOnSell &&
-      trade.tradeSize &&
-      trade.PNL &&
-      trade.tradeDescription
+      formData.tradeEntry &&
+      formData.prizeOnSell &&
+      formData.tradeSize &&
+      formData.PNL &&
+      formData.tradeDescription
     ) {
+      const trade = {
+        tradeEntry: formData.tradeEntry,
+        prizeOnSell: formData.prizeOnSell,
+        tradeSize: formData.tradeSize,
+        PNL: parseInt(formData.PNL, 10),
+        tradeDescription: formData.tradeDescription,
+      };
       addTrade(trade);
-      addChartData({ date: new Date().toLocaleDateString(), PNL: trade.PNL });
       setIsOpen(false);
     }
 
-    e.target.reset();
+    resetFormData();
   };
 
   return (
@@ -44,23 +48,84 @@ const CreateTradeForm = ({ onTradeSubmit }) => {
           <div className="modal-content">
             <h2>Create Trade</h2>
             <form onSubmit={handleSubmit}>
-              <label>Trade Entry</label>
-              <input type="text" name="tradeEntry" required />
+              <select
+                value={formData.selectedMonth}
+                onChange={(e) =>
+                  updatedFormData("selectedMonth", e.target.value)
+                }
+                className="border p-2 mr-2"
+              >
+                <option value="">Select Month</option>
+                {[
+                  "Jan",
+                  "Feb",
+                  "Mar",
+                  "Apr",
+                  "May",
+                  "Jun",
+                  "Jul",
+                  "Aug",
+                  "Sep",
+                  "Oct",
+                  "Nov",
+                  "Dec",
+                ].map((month) => (
+                  <option key={month} value={month}>
+                    {month}
+                  </option>
+                ))}
+              </select>
 
+              <label>Trade Entry</label>
+              <input
+                type="text"
+                value={formData.tradeEntry}
+                onChange={(e) => updatedFormData("tradeEntry", e.target.value)}
+                placeholder="Trade Entry"
+                className="border p-2 mr-2"
+                required
+              />
               <label>Prize on Sell</label>
-              <input type="text" name="prizeOnSell" required />
+              <input
+                type="text"
+                value={formData.prizeOnSell}
+                onChange={(e) => updatedFormData("prizeOnSell", e.target.value)}
+                placeholder="Prize on Sell"
+                className="border p-2 mr-2"
+                required
+              />
 
               <label>Trade Size</label>
-              <input type="text" name="tradeSize" required />
+              <input
+                type="text"
+                value={formData.tradeSize}
+                onChange={(e) => updatedFormData("tradeSize", e.target.value)}
+                placeholder="Trade Size"
+                className="border p-2 mr-2"
+                required
+              />
 
               <label>PNL</label>
-              <input type="number" name="PNL" required />
+              <input
+                type="number"
+                value={formData.PNL}
+                onChange={(e) => updatedFormData("PNL", e.target.value)}
+                placeholder="PNL"
+                className="border p-2 mr-2"
+                required
+              />
 
               <label>Trade Description</label>
-              <input type="text" name="tradeDescription" required />
-
-              <label>Trade Image</label>
-              <input type="file" name="tradeImage" />
+              <input
+                type="text"
+                value={formData.tradeDescription}
+                onChange={(e) =>
+                  updatedFormData("tradeDescription", e.target.value)
+                }
+                placeholder="Trade Description"
+                className="border p-2 mr-2"
+                required
+              />
 
               <div className="modal-buttons">
                 <button

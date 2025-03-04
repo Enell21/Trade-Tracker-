@@ -1,6 +1,24 @@
 import { useState } from "react";
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+// Initial Data Structure for Chart
+const initialData = months.map((month) => ({ name: month, value: 0 }));
 
 const CreateOrder = ({ data, setData }) => {
+  const [data, setData] = useState(initialData);
   const [selectedMonth, setSelectedMonth] = useState("");
   const [changeValue, setChangeValue] = useState("");
 
